@@ -3,7 +3,7 @@
 %define		_pearname	%{_class}_%{_subclass}
 
 Name:		php-pear-%{_pearname}
-Version:	2.0.4
+Version:	2.0.5
 Release:	%mkrel 1
 Summary:	OO interface for searching and manipulating LDAP-entries
 License:	PHP License
