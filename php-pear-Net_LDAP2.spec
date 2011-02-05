@@ -3,7 +3,7 @@
 %define		upstream_name	%{_class}_%{_subclass}
 
 Name:		php-pear-%{upstream_name}
-Version:	2.0.10
+Version:	2.0.11
 Release:	%mkrel 1
 Summary:	OO interface for searching and manipulating LDAP-entries
 License:	PHP License
