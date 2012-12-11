@@ -15,6 +15,7 @@ Requires(preun): php-pear
 Requires:	php-pear
 BuildRequires:	php-pear
 BuildArch:	noarch
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 %{upstream_name} is a clone of Perl's Net::LDAP object interface to
@@ -41,8 +42,83 @@ rm -rf %{buildroot}%{_datadir}/pear/tests
 install -d %{buildroot}%{_datadir}/pear/packages
 install -m 644 %{upstream_name}.xml %{buildroot}%{_datadir}/pear/packages
 
+%clean
+rm -rf %{buildroot}
+
+%post
+%if %mdkversion < 201000
+pear install --nodeps --soft --force --register-only \
+    %{_datadir}/pear/packages/%{upstream_name}.xml >/dev/null || :
+%endif
+
+%preun
+%if %mdkversion < 201000
+if [ "$1" -eq "0" ]; then
+    pear uninstall --nodeps --ignore-errors --register-only \
+        %{upstream_name} >/dev/null || :
+fi
+%endif
+
 %files
 %defattr(-,root,root)
 %doc %{upstream_name}-%{version}/doc/*
 %{_datadir}/pear/%{_class}
 %{_datadir}/pear/packages/%{upstream_name}.xml
+
+
+%changelog
+* Fri Dec 16 2011 Oden Eriksson <oeriksson@mandriva.com> 2.0.12-2mdv2012.0
++ Revision: 742155
+- fix major breakage by careless packager
+
+* Mon Nov 28 2011 Oden Eriksson <oeriksson@mandriva.com> 2.0.12-1
++ Revision: 735174
+- new version
+
+* Fri May 27 2011 Oden Eriksson <oeriksson@mandriva.com> 2.0.11-2
++ Revision: 679458
+- mass rebuild
+
+* Sat Feb 05 2011 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.11-1
++ Revision: 636090
+- update to new version 2.0.11
+
+* Wed Aug 25 2010 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.10-1mdv2011.0
++ Revision: 573125
+- update to new version 2.0.10
+
+* Sun Feb 21 2010 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.9-1mdv2010.1
++ Revision: 508991
+- update to new version 2.0.9
+
+* Thu Jan 21 2010 Adam Williamson <awilliamson@mandriva.org> 2.0.7-2mdv2010.1
++ Revision: 494703
+- no-change bump so I can upload to 2009.0 updates (stupid stupid bs bugs)
+
+* Tue Dec 15 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.7-1mdv2010.1
++ Revision: 478813
+- update to new version 2.0.7
+
+* Sun Nov 22 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.6-2mdv2010.1
++ Revision: 469028
+- spec cleanup
+- use pear installer
+- don't ship tests, even in documentation
+- own all directories
+- use rpm filetriggers starting from mandriva 2010.1
+
+* Sun Aug 23 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.6-1mdv2010.0
++ Revision: 419924
+- update to new version 2.0.6
+
+* Sun Jul 26 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.5-1mdv2010.0
++ Revision: 400320
+- update to new version 2.0.5
+
+* Thu Jul 09 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.4-1mdv2010.0
++ Revision: 393770
+- import php-pear-Net_LDAP2
+
+
+* Thu Jul 09 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.4-1mdv2010.0
+- first mdv release
