@@ -47,8 +47,10 @@ install -m 644 %{upstream_name}.xml %{buildroot}%{_datadir}/pear/packages
 %files
 %defattr(-,root,root)
 %doc %{upstream_name}-%{version}/doc/*
+%{_datadir}/pear/doc/*
 %{_datadir}/pear/%{_class}
 %{_datadir}/pear/packages/%{upstream_name}.xml
+%{_datadir}/pear/test/Net_LDAP2/tests/*
 
 
 %changelog
